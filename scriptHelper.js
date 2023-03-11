@@ -18,12 +18,43 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
 
 function validateInput(testInput) {
    if (testInput === "") {
-    return "Empty"
-   } else if (isNaN(testInput))
+    return "Empty";
+   } else if (isNaN(testInput)) {
+    return "Not a Number";
+   } else if (!isNaN(testInput)) {
+    return "Is a Number";
+   }
 }
 
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-   
+    let pilotStatus = document.getElementById("pilotStatus");
+    let copilotStatus = document.getElementById("copilotStatus");
+    let fuelStatus = document.getElementById("fuelStatus");
+    let cargoStatus = document.getElementById("cargoStatus");
+    let headerTwo = document.getElementById("launchStatus");
+    if (validateInput(pilot) === "Empty" || validateInput(copilot) === "Empty" || validateInput(fuelLevel) === "Empty" || validateInput (cargoLevel) === "Empty") {
+        alert("All fields are required!"); 
+    } else if (validateInput(pilot) === "Is a Number" || validateInput(copilot) === "Is a Number" || validateInput(fuelLevel) === "Not a Number" || validateInput (cargoLevel) === "Not a Number") {
+        alert ("Make sure to enter valid information for each field!");
+    } else {
+        list.style.visibility = "visible";
+        pilotStatus.innerHTML = `Pilot ${pilot} is Ready for launch`;
+        copilotStatus.innerHTML = `Co-pilot ${copilot} is ready for launch`;
+    }
+
+    if (fuelLevel < 10000) {
+        fuelStatus.innerHTML = `Fuel level too low for launch`;
+        headerTwo.style.color = "red";
+        headerTwo.innerHTML = `Shuttle not ready for launch`;
+    } else if (cargoLevel > 10000) {
+        cargoStatus.innerHTML = "Cargo mass too heavy for launch";
+        headerTwo.style.color = "red";
+        headerTwo.innerHTML = `Shuttle not ready for launch`;
+    } else {
+        headerTwo.innerHTML = "Shuttle is ready for launch";
+        headerTwo.style.color = "green";
+    }
+    
 }
 
 async function myFetch() {
